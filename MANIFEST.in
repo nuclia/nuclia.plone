@@ -1,0 +1,4 @@
+graft src/nuclia
+graft docs
+include *.rst
+global-exclude *.pyc
