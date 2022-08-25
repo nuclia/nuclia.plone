@@ -3,6 +3,9 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="nuclia.plone">
 
-<!-- -*- extra stuff goes here -*- -->
+    <records interface="nuclia.plone.settings.ISettings" prefix="nuclia">
+        <value key="knowledgeBox"></value>
+        <value key="apiKey"></value>
+    </records>
 
 </registry>
