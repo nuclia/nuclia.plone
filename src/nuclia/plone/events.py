@@ -1,3 +1,4 @@
+from email import header
 import logging
 import requests
 import hashlib
@@ -8,12 +9,12 @@ from zope.annotation.interfaces import IAnnotations
 logger = logging.getLogger(name="plone.app.contenttypes upgrade")
 UID_ANNOTATION = "nuclia.plone.uid"
 FIELD_ID_ANNOTATION = "nuclia.plone.fieldid"
+MD5_ANNOTATION = "nuclia.plone.md5"
 
 def on_create(object, event):
     upload_to_new_resource(object)
 
 def on_modify(object, event):
-    # uid = object.UID()
     # title = object.title
     # body = object.text.raw
     annotations = IAnnotations(object)
@@ -21,7 +22,7 @@ def on_modify(object, event):
     if not resource:
         upload_to_new_resource(object)
     else:
-        update_file(object)
+        update_resource(object)
 
 def on_delete(object, event):
     annotations = IAnnotations(object)
@@ -33,17 +34,36 @@ def on_delete(object, event):
         )
         if not response.ok:
             logger.error(f'Error deleting resource')
+            logger.error(response.text)
 
 def upload_to_new_resource(object):
     file = getattr(object, 'file', None)
+    remoteUrl = getattr(object, 'remoteUrl', None)
+    annotations = IAnnotations(object)
     if file:
         response = upload_file(f"{get_kb_path()}/upload", file)
         if response:
-            annotations = IAnnotations(object)
             resource = response.headers['ndb-resource'].split('/')[-1]
             annotations[UID_ANNOTATION] = resource
             field = response.headers['ndb-field'].split('/')[-1]
             annotations[FIELD_ID_ANNOTATION] = field
+            annotations[MD5_ANNOTATION] = hashlib.md5(file.data).hexdigest()
+    elif remoteUrl:
+        response = requests.post(
+            f"{get_kb_path()}/resources",
+            headers=get_headers(),
+            json={
+                "links": {"link": { "uri": remoteUrl }},
+                "title": object.title,
+                "icon": 'application/stf-link',
+            },
+        )
+        if not response.ok:
+            logger.error(f'Error creating link resource')
+            logger.error(response.text)
+        else:
+            resource = response.json()['uuid']
+            annotations[UID_ANNOTATION] = resource
 
 def upload_file(path, file):
     filename = file.filename
@@ -61,39 +81,59 @@ def upload_file(path, file):
     )
     if not response.ok:
         logger.error(f'Error uploading file')
+        logger.error(response.text)
         return None
     else:
         return response
 
-def update_file(object):
+def update_resource(object):
     annotations = IAnnotations(object)
     file = getattr(object, 'file', None)
-    if not file:
+    remoteUrl = getattr(object, 'remoteUrl', None)
+    if not file and not remoteUrl:
         return
     resource = annotations.get(UID_ANNOTATION)
     data = {}
     if resource:
         response = requests.get(
-            f"{get_kb_path()}/resource/{resource}?show=basic&show=extracted&extracted=file",
+            f"{get_kb_path()}/resource/{resource}?show=basic&show=values&show=extracted&extracted=file&extracted=link",
             headers=get_headers()
         )
         if not response.ok:
             logger.error(f'Error getting resource')
+            logger.error(response.text)
         data = response.json()['data']
     files = data.get('files', None)
+    links = data.get('links', None)
     field_id = annotations.get(FIELD_ID_ANNOTATION, None)
     if files and field_id and field_id in files:
-        previous_md5 = files[field_id]['extracted']['file']['md5']
+        previous_md5 = annotations.get(MD5_ANNOTATION, None)
         current_md5 = hashlib.md5(file.data).hexdigest()
         if previous_md5 == current_md5:
             return
         else:
             delete_field(resource, 'file', field_id, annotations)
+    if links and 'link' in links and links['link']['value']['uri'] != remoteUrl:
+        delete_field(resource, 'link', 'link', annotations)
 
-    response = upload_file(f"{get_kb_path()}/resource/{resource}/file/file1/upload", file)
-    if response:
-        field = response.headers['ndb-field'].split('/')[-1]
-        annotations[FIELD_ID_ANNOTATION] = field
+    if file:
+        response = upload_file(f"{get_kb_path()}/resource/{resource}/file/file1/upload", file)
+        if response:
+            field = response.headers['ndb-field'].split('/')[-1]
+            annotations[FIELD_ID_ANNOTATION] = field
+            annotations[MD5_ANNOTATION] = hashlib.md5(file.data).hexdigest()
+    if remoteUrl:
+        response = requests.patch(
+            f"{get_kb_path()}/resource/{resource}",
+            headers=get_headers(),
+            json={
+                "links": {"link": { "uri": remoteUrl }},
+                "title": object.title,
+            },
+        )
+        if not response.ok:
+            logger.error(f'Error updating link')
+            logger.error(response.text)
 
 def delete_field(resource, field_type, field_id, annotations):
     response = requests.delete(
@@ -102,6 +142,7 @@ def delete_field(resource, field_type, field_id, annotations):
     )
     if not response.ok:
         logger.error(f'Error deleting field')
+        logger.error(response.text)
     else:
         del annotations[FIELD_ID_ANNOTATION]
 
