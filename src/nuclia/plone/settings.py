@@ -14,6 +14,11 @@ class ISettings(Interface):
         title=u"API key",
         description=u"Nuclia API key with contributor access",
     )
+    region = schema.TextLine(
+        title=u"Region",
+        description=u"Processing zone",
+        default="europe-1"
+    )
 
 class SettingsEditForm(RegistryEditForm):
     schema = ISettings

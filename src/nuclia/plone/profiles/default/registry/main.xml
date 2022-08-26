@@ -6,6 +6,7 @@
     <records interface="nuclia.plone.settings.ISettings" prefix="nuclia">
         <value key="knowledgeBox"></value>
         <value key="apiKey"></value>
+        <value key="region"></value>
     </records>
 
 </registry>
