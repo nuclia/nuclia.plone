@@ -41,7 +41,7 @@
       name="nuclia.plone-hiddenprofiles"
       />
 
-  <subscriber
+  <!-- <subscriber
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.IObjectCreatedEvent"
     handler=".events.on_create"
@@ -55,6 +55,11 @@
     for="Products.CMFCore.interfaces.IContentish
          zope.lifecycleevent.IObjectRemovedEvent"
     handler=".events.on_delete"
+    /> -->
+  <subscriber
+    for="Products.CMFCore.interfaces.IContentish
+         Products.CMFCore.interfaces.IActionSucceededEvent"
+    handler=".events.on_state_change"
     />
 
   <browser:page

@@ -12,11 +12,13 @@ FIELD_ID_ANNOTATION = "nuclia.plone.fieldid"
 MD5_ANNOTATION = "nuclia.plone.md5"
 
 def on_create(object, event):
-    upload_to_new_resource(object)
+    if is_public(object):
+        upload_to_new_resource(object)
 
 def on_modify(object, event):
-    # title = object.title
     # body = object.text.raw
+    if not is_public(object):
+        return
     annotations = IAnnotations(object)
     resource = annotations.get(UID_ANNOTATION)
     if not resource:
@@ -25,16 +27,14 @@ def on_modify(object, event):
         update_resource(object)
 
 def on_delete(object, event):
-    annotations = IAnnotations(object)
-    resource = annotations.get(UID_ANNOTATION)
-    if resource:
-        response = requests.delete(
-            f"{get_kb_path()}/resource/{resource}",
-            headers=get_headers()
-        )
-        if not response.ok:
-            logger.error(f'Error deleting resource')
-            logger.error(response.text)
+    if is_public(object):
+        unindex_object(object)
+
+def on_state_change(object, event):
+    if is_public(object):
+        upload_to_new_resource(object)
+    else:
+        unindex_object(object)
 
 def upload_to_new_resource(object):
     file = getattr(object, 'file', None)
@@ -135,6 +135,18 @@ def update_resource(object):
             logger.error(f'Error updating link')
             logger.error(response.text)
 
+def unindex_object(object):
+    annotations = IAnnotations(object)
+    resource = annotations.get(UID_ANNOTATION)
+    if resource:
+        response = requests.delete(
+            f"{get_kb_path()}/resource/{resource}",
+            headers=get_headers()
+        )
+        if not response.ok:
+            logger.error(f'Error deleting resource')
+            logger.error(response.text)
+
 def delete_field(resource, field_type, field_id, annotations):
     response = requests.delete(
         f"{get_kb_path()}/resource/{resource}/{field_type}/{field_id}",
@@ -154,3 +166,6 @@ def get_kb_path():
 def get_headers():
     api_key = api.portal.get_registry_record('nuclia.apiKey', default=None)
     return {"X-STF-Serviceaccount": f"Bearer {api_key}"}
+
+def is_public(object):
+    return api.content.get_state(object) == 'published'
