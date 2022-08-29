@@ -7,6 +7,7 @@
         <value key="knowledgeBox"></value>
         <value key="apiKey"></value>
         <value key="region"></value>
+        <value key="widgetId"></value>
     </records>
 
 </registry>

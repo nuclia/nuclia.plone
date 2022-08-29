@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+        <script src="https://cdn.nuclia.cloud/nuclia-widget.umd.js"></script>
+        <nuclia-search
+          tal:attributes="knowledgebox view/kbid; zone view/region; widgetid view/widget_id"
+          type="form" 
+        ></nuclia-search>
+    </metal:block>
+</html>
+eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InNhIn0.eyJpc3MiOiJodHRwczovL251Y2xpYS5jbG91ZC8iLCJleHAiOjE2OTMzMDAyOTIsImlhdCI6MTY2MTc2NDI5Miwic3ViIjoiNWYxYzAxNjItNzdiOC00MDk2LWE5N2YtZjJlNTQxMGQ0NmI3IiwianRpIjoiNDMyZmJmM2MtZTg4Mi00ZjZkLTkzZDAtM2FjYTgwNjk5M2M1Iiwia2V5IjoiNzNjYjM0ZGUtZDY4OC00MDAxLWI5MTItNjk2NjkzOTU4MmViIiwia2lkIjoiOWNmZjY0ZjItMTU2Ny00N2Q2LWEwMDQtZmMxMDEwMjJiMGI5In0.Mpd2HwqsmxwBYjQGdVAYVil8pttHltQI3p8-AJc4q-WV-tzVK4_GUU74-k2wLqW6TNxIyqeHQk_iCiW3NwfU-EiNadtmLDjnXoJuetqeeeT2xnDXaVzIxGlOZR8U9vIh2VpKPYELL1PTsrB-uKSdvmvR4jYfsyT3cDk07GoJDRr-PfGwWwzH1rGcEr76XZqIRmWKzNvwiXTH-ZPggQRsKFBI0oviy4lfPpOFgkFq3VRu31C-kxs2GSbIqv0L8j1jxFqT95L8CvfvrOpfobv58yESUBbCz0SuztIGtdDqV5qwG2qAuzIhvVLciumDeM7TAH-AvpdB_T7iKFScLk9mR7cyBnU1otTDOdsUPZBRTwWDER4Q-g5Iv99LyKURwpuL_0c9-pj8yCB354ESjZBj57Ru7s5iIw4Ua9kfBfp3zy_ussqSNr5Poyq0BBDC_pJYpF2Je5bDdfL16jkg6hHMqllNYcuklNskzDi7LmDf_DtiEECf-FhHOeEyPZ9Gl7-SVFxrGSWLTVgtKcaHvFDf37b0PfFJ9wKuubKKlRXwOSiMYlnA9OSOvpRQLDPwSgXnIYxpAity58FSTGm4lOcmVDkRT_2Fscm6HJllma6TrMcMJAPlHKhN41jHcpo3X0DgmxPfrHMeuqMKMhdKI67CnwfbH3QnXlyHCKFvPUqv8c8
+
+84590496-1b62-4b92-b6f0-97c172b6ae1a

@@ -148,7 +148,8 @@ def delete_field(resource, field_type, field_id, annotations):
 
 def get_kb_path():
     kbid = api.portal.get_registry_record('nuclia.knowledgeBox', default=None)
-    return f"https://europe-1.nuclia.cloud/api/v1/kb/{kbid}"
+    region = api.portal.get_registry_record('nuclia.region', default='europe-1')
+    return f"https://{region}.nuclia.cloud/api/v1/kb/{kbid}"
 
 def get_headers():
     api_key = api.portal.get_registry_record('nuclia.apiKey', default=None)
