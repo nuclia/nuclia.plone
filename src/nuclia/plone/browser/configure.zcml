@@ -10,4 +10,18 @@
           class=".search.SearchWidget"
           />
 
+    <browser:page
+          for="*"
+          name="nuclia-extract-text"
+          permission="zope2.Public"
+          class=".extract.ExtractText"
+          />
+
+    <browser:page
+          for="*"
+          name="nuclia-extract-keywords"
+          permission="zope2.Public"
+          class=".extract.ExtractKeywords"
+          />
+
 </configure>

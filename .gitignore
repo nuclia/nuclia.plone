@@ -6,6 +6,7 @@
 *.py?
 *.swp
 .*project
+.DS_Store
 # dirs
 /.settings/
 bin/

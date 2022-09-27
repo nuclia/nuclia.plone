@@ -1,22 +1,16 @@
-from email import header
-import logging
+from nuclia.plone import FIELD_ID_ANNOTATION, MD5_ANNOTATION, UID_ANNOTATION, logger, get_kb_path, get_headers
 import requests
 import hashlib
 from base64 import b64encode
 from plone import api
 from zope.annotation.interfaces import IAnnotations
 
-logger = logging.getLogger(name="plone.app.contenttypes upgrade")
-UID_ANNOTATION = "nuclia.plone.uid"
-FIELD_ID_ANNOTATION = "nuclia.plone.fieldid"
-MD5_ANNOTATION = "nuclia.plone.md5"
 
 def on_create(object, event):
     if is_public(object):
         upload_to_new_resource(object)
 
 def on_modify(object, event):
-    # body = object.text.raw
     if not is_public(object):
         return
     annotations = IAnnotations(object)
@@ -66,7 +60,9 @@ def upload_to_new_resource(object):
             annotations[UID_ANNOTATION] = resource
 
 def upload_file(path, file):
-    filename = file.filename
+    filename = getattr(file, "filename", None)
+    if not filename:
+        return
     content_type = file.contentType
     headers = get_headers()
     headers.update({
@@ -158,14 +154,5 @@ def delete_field(resource, field_type, field_id, annotations):
     else:
         del annotations[FIELD_ID_ANNOTATION]
 
-def get_kb_path():
-    kbid = api.portal.get_registry_record('nuclia.knowledgeBox', default=None)
-    region = api.portal.get_registry_record('nuclia.region', default='europe-1')
-    return f"https://{region}.nuclia.cloud/api/v1/kb/{kbid}"
-
-def get_headers():
-    api_key = api.portal.get_registry_record('nuclia.apiKey', default=None)
-    return {"X-STF-Serviceaccount": f"Bearer {api_key}"}
-
 def is_public(object):
-    return api.content.get_state(object) == 'published'
+    return api.content.get_state(obj=object, default='published') == 'published'
