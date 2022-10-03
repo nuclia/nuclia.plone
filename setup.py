@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='nuclia.plone',
-    version='1.0a1',
+    version='1.0a2',
     description="Integrate Nuclia search in Plone",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
@@ -34,11 +34,11 @@ setup(
     keywords='Python Plone CMS',
     author='Eric BREHAULT',
     author_email='ebrehault@gmail.com',
-    url='https://github.com/collective/nuclia.plone',
+    url='https://github.com/nuclia/nuclia.plone',
     project_urls={
         'PyPI': 'https://pypi.python.org/pypi/nuclia.plone',
-        'Source': 'https://github.com/collective/nuclia.plone',
-        'Tracker': 'https://github.com/collective/nuclia.plone/issues',
+        'Source': 'https://github.com/nuclia/nuclia.plone',
+        'Tracker': 'https://github.com/nuclia/nuclia.plone/issues',
         # 'Documentation': 'https://nuclia.plone.readthedocs.io/en/latest/',
     },
     license='GPL version 2',
