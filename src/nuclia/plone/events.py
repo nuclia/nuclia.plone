@@ -37,9 +37,9 @@ def upload_to_new_resource(object):
     if file:
         response = upload_file(f"{get_kb_path()}/upload", file)
         if response:
-            resource = response.headers['ndb-resource'].split('/')[-1]
+            resource = response.json()['uuid']
             annotations[UID_ANNOTATION] = resource
-            field = response.headers['ndb-field'].split('/')[-1]
+            field = response.json()['field_id']
             annotations[FIELD_ID_ANNOTATION] = field
             annotations[MD5_ANNOTATION] = hashlib.md5(file.data).hexdigest()
     elif remoteUrl:
@@ -115,7 +115,7 @@ def update_resource(object):
     if file:
         response = upload_file(f"{get_kb_path()}/resource/{resource}/file/file1/upload", file)
         if response:
-            field = response.headers['ndb-field'].split('/')[-1]
+            field = response.json()['field_id'].split('/')[-1]
             annotations[FIELD_ID_ANNOTATION] = field
             annotations[MD5_ANNOTATION] = hashlib.md5(file.data).hexdigest()
     if remoteUrl:
