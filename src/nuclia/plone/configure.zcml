@@ -64,7 +64,7 @@
 
   <browser:page
       name="nuclia-settings"
-      for="plone.base.interfaces.IPloneSiteRoot"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".settings.NucliaSettingsControlPanel"
       permission="plone.app.controlpanel.Site"
       />
