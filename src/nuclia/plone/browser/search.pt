@@ -4,8 +4,12 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/main_template/macros/master">
 
-    <metal:block fill-slot="main">
+    <metal:block fill-slot="javascript_head_slot">
+        <script type="text/javascript">define = undefined;</script>
         <script src="https://cdn.nuclia.cloud/nuclia-widget.umd.js"></script>
+    </metal:block>
+
+    <metal:block fill-slot="main">
         <nuclia-search
           tal:attributes="knowledgebox view/kbid; zone view/region; widgetid view/widget_id"
           type="form" 
