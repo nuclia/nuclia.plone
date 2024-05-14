@@ -19,12 +19,12 @@ Go to Site Setup / Add-ons and install `nuclia.plone`.
 Go to Nuclia settings, and enter the following:
 
 - Knowledge box ID: you have a default knowledge box created with your Nuclia account, go to [Nuclia dashboard](https://nuclia.cloud/), the knowledge box ID is indicated on the home page in the **Nuclia APi endpoint**
-- API key: see [how to get an API key](https://docs.nuclia.dev/docs/quick-start/push#get-a-service-access-token)
+- API key: see [how to get an API key](https://docs.nuclia.dev/docs/guides/getting-started/quick-start/push#get-an-api-key)
 - Region: this the geographical region your knowledge box is attached to (at the moment only `europe-1` is supported)
-- Widget ID: see [how to create a widget](https://docs.nuclia.dev/docs/quick-start/search#add-a-search-widget-to-your-website)
+- Widget snippet: see [how to create a widget](https://docs.nuclia.dev/docs/guides/getting-started/quick-start/search#add-a-search-widget-to-your-website)
 
 ## Usage
 
-Everytime a `File` or a `Link` content is created, it is indexed in Nuclia.
+Everytime a `File` content is created, it is indexed in Nuclia.
 
 The Nuclia search widget is visible on the `/@@nuclia-search` view.

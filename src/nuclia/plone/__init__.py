@@ -8,8 +8,6 @@ from plone import api
 _ = MessageFactory('nuclia.plone')
 
 logger = logging.getLogger(name="nuclia")
-UID_ANNOTATION = "nuclia.plone.uid"
-FIELD_ID_ANNOTATION = "nuclia.plone.fieldid"
 MD5_ANNOTATION = "nuclia.plone.md5"
 
 def get_kb_path():

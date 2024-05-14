@@ -3,7 +3,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 class SearchWidget(BrowserView):
-    """ Render the search widget)
+    """ Render the search widget
     """
     index = ViewPageTemplateFile("search.pt")
     _kbid = None
@@ -23,9 +23,9 @@ class SearchWidget(BrowserView):
         return self._region
 
     @property
-    def widget_id(self):
+    def widget(self):
         if not self._widget:
-            self._widget = api.portal.get_registry_record('nuclia.widgetId', default='dashboard')
+            self._widget = api.portal.get_registry_record('nuclia.widget', default='')
         return self._widget
 
     def __call__(self):

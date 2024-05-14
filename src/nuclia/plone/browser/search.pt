@@ -10,9 +10,6 @@
     </metal:block>
 
     <metal:block fill-slot="main">
-        <nuclia-search
-          tal:attributes="knowledgebox view/kbid; zone view/region; widgetid view/widget_id"
-          type="form" 
-        ></nuclia-search>
+        <div tal:content="structure view/widget"></div>
     </metal:block>
 </html>

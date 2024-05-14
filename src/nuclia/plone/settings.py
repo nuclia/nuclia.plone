@@ -19,9 +19,9 @@ class ISettings(Interface):
         description=u"Processing zone",
         default="europe-1"
     )
-    widgetId = schema.TextLine(
-        title=u"Widget ID",
-        default="dashboard"
+    widget = schema.Text(
+        title=u"Widget snippet",
+        default=""
     )
 
 class SettingsEditForm(RegistryEditForm):
