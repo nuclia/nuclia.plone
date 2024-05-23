@@ -17,52 +17,52 @@ class ISettings(Interface):
     region = schema.TextLine(
         title=u"Region",
         description=u"Processing zone",
-        default="europe-1"
+        default=u"europe-1"
     )
     widget = schema.Text(
         title=u"Widget snippet",
-        default="",
+        default=u"",
         required=False,
     )
     file_field = schema.TextLine(
         title=u"File field",
         description=u"Name of the field containing the file to index",
-        default="file"
+        default=u"file"
     )
     title_field = schema.TextLine(
         title=u"Title field",
         description=u"Name of the field containing the title to index",
-        default="title"
+        default=u"title"
     )
     description_field = schema.TextLine(
         title=u"Description field",
         description=u"Name of the field containing the description to index",
-        default="description",
+        default=u"description",
         required=False,
     )
     tags_field = schema.List(
         value_type=schema.TextLine(),
         title=u"Tags fields",
         description=u"List of fields containing tags to index",
-        default=["subject"],
+        default=[u"subject"],
         required=False,
     )
     created_field = schema.TextLine(
         title=u"Created date field",
         description=u"Name of the field containing the Created date to index",
-        default="creation_date",
+        default=u"creation_date",
         required=False,
     )
     modified_field = schema.TextLine(
         title=u"Modified date field",
         description=u"Name of the field containing the modified date to index",
-        default="modification_date",
+        default=u"modification_date",
         required=False,
     )
     collaborators_field = schema.TextLine(
         title=u"Collaborators date field",
         description=u"Name of the field containing the collaborators date to index",
-        default="contributors",
+        default=u"contributors",
         required=False,
     )
 

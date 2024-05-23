@@ -11,9 +11,9 @@ def flatten_tags(object, attrs):
         value = getattr(object, attr, None)
         if value:
             if isinstance(value, (list, tuple)):
-                tags.extend([f"{attr}/{v}" for v in value if v])
+                tags.extend(["{attr}/{v}".format(attr=attr, v=v) for v in value if v])
             else:
-                tags.append(f"{attr}/{value}")
+                tags.append("{attr}/{value}".format(attr=attr, value=value))
     return tags
 
 def get_date(object, field):
@@ -42,7 +42,7 @@ def upload_to_new_resource(object):
     if file:
         uuid = api.content.get_uuid(obj=object)
         response = requests.post(
-            f"{get_kb_path()}/resources",
+            "{path}/resources".format(path=get_kb_path()),
             headers=get_headers(),
             json={
                 "slug": uuid,
@@ -63,7 +63,7 @@ def upload_to_new_resource(object):
                 update_resource(object)
                 return
             else:
-                logger.error(f'Error creating resource')
+                logger.error('Error creating resource')
                 logger.error(response.text)
                 return
         response = upload_file(uuid, file)
@@ -81,13 +81,13 @@ def upload_file(uuid, file):
         "x-filename": b64encode(filename.encode()).decode(),
     })
     response = requests.post(
-        f"{get_kb_path()}/slug/{uuid}/file/file/upload",
+        "{path}/slug/{uuid}/file/file/upload".format(path=get_kb_path(), uuid=uuid),
         headers=headers,
         data=file.data,
         verify=False,
     )
     if not response.ok:
-        logger.error(f'Error uploading file')
+        logger.error('Error uploading file')
         logger.error(response.text)
         return None
     else:
@@ -102,7 +102,7 @@ def update_resource(object):
     uuid = api.content.get_uuid(obj=object)
     fields = {}
     response = requests.get(
-        f"{get_kb_path()}/slug/{uuid}?show=basic&show=values&show=extracted&extracted=file",
+        "{path}/slug/{uuid}?show=basic&show=values&show=extracted&extracted=file".format(path=get_kb_path(), uuid=uuid),
         headers=get_headers()
     )
     if not response.ok:
@@ -110,7 +110,7 @@ def update_resource(object):
             upload_to_new_resource(object)
             return
         else:
-            logger.error(f'Error getting resource')
+            logger.error('Error getting resource')
             logger.error(response.text)
             return
     fields = response.json()['data']
@@ -130,7 +130,7 @@ def update_resource(object):
     
     data = get_data(object)
     response = requests.patch(
-        f"{get_kb_path()}/slug/{uuid}",
+        "{path}/slug/{uuid}".format(path=get_kb_path(), uuid=uuid),
         headers=get_headers(),
         json={
             "title": data.get('title', None),
@@ -149,18 +149,18 @@ def update_resource(object):
 def unindex_object(object):
     uuid = api.content.get_uuid(obj=object)
     response = requests.delete(
-        f"{get_kb_path()}/slug/{uuid}",
+        "{path}/slug/{uuid}".format(path=get_kb_path(), uuid=uuid),
         headers=get_headers()
     )
     if not response.ok:
-        logger.error(f'Error deleting resource')
+        logger.error('Error deleting resource')
         logger.error(response.text)
 
 def delete_file_field(resource):
     response = requests.delete(
-        f"{get_kb_path()}/slug/{resource}/file/file",
+        "{path}/slug/{resource}/file/file".format(path=get_kb_path(), resource=resource),
         headers=get_headers()
     )
     if not response.ok:
-        logger.error(f'Error deleting field')
+        logger.error('Error deleting field')
         logger.error(response.text)

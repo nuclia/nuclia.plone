@@ -13,11 +13,11 @@ MD5_ANNOTATION = "nuclia.plone.md5"
 def get_kb_path():
     kbid = api.portal.get_registry_record('nuclia.knowledgeBox', default=None)
     region = api.portal.get_registry_record('nuclia.region', default='europe-1')
-    return f"https://{region}.nuclia.cloud/api/v1/kb/{kbid}"
+    return "https://{region}.nuclia.cloud/api/v1/kb/{kbid}".format(region=region, kbid=kbid)
 
 def get_headers():
     api_key = api.portal.get_registry_record('nuclia.apiKey', default=None)
-    return {"X-STF-Serviceaccount": f"Bearer {api_key}"}
+    return {"X-STF-Serviceaccount": "Bearer {api_key}".format(api_key=api_key)}
 
 def get_field_mapping():
     return {
