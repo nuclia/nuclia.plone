@@ -18,3 +18,14 @@ def get_kb_path():
 def get_headers():
     api_key = api.portal.get_registry_record('nuclia.apiKey', default=None)
     return {"X-STF-Serviceaccount": f"Bearer {api_key}"}
+
+def get_field_mapping():
+    return {
+        'file': api.portal.get_registry_record('nuclia.file_field', default='file'),
+        'title': api.portal.get_registry_record('nuclia.title_field', default='title'),
+        'summary': api.portal.get_registry_record('nuclia.description_field', default='description'),
+        'tags': api.portal.get_registry_record('nuclia.tags_field', default=['subject']),
+        'created': api.portal.get_registry_record('nuclia.created_field', default='creation_date'),
+        'modified': api.portal.get_registry_record('nuclia.modified_field', default='modification_date'),
+        'collaborators': api.portal.get_registry_record('nuclia.collaborators_field', default='contributors'),
+    }
