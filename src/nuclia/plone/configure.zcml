@@ -43,7 +43,7 @@
 
   <subscriber
     for="Products.CMFCore.interfaces.IContentish
-         zope.lifecycleevent.IObjectCreatedEvent"
+         zope.lifecycleevent.IObjectAddedEvent"
     handler=".events.on_create"
     />
   <subscriber

@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master">
+
+    <metal:block fill-slot="main">
+      <h1>Re-index files in Nuclia</h1>
+      <form action="./@@nuclia-reindex" method="post">
+          There are <span tal:content="view/count_all_files"></span> file(s) in this container.
+          <input type="submit" value="(Re-)index all" />
+      </form>
+      <tal:block tal:condition="view/done">
+          <p>Done</p>
+      </tal:block>
+    </metal:block>
+</html>
