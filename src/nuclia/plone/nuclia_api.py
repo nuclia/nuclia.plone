@@ -5,10 +5,15 @@ from base64 import b64encode
 from plone import api
 from zope.annotation.interfaces import IAnnotations
 
+def get_attribute_value(object, attr, default=None):
+    if attr.startswith('parent/'):
+        return get_attribute_value(object.getParentNode(), attr[7:], default)
+    return getattr(object, attr, default)
+
 def flatten_tags(object, attrs):
     tags = []
     for attr in attrs:
-        value = getattr(object, attr, None)
+        value = get_attribute_value(object, attr, None)
         if value:
             if isinstance(value, (list, tuple)):
                 tags.extend(["{attr}/{v}".format(attr=attr, v=v) for v in value if v])
@@ -17,7 +22,7 @@ def flatten_tags(object, attrs):
     return tags
 
 def get_date(object, field):
-    date = getattr(object, field, None)
+    date = get_attribute_value(object, field, None)
     if not date:
         return None
     return date.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
@@ -25,13 +30,13 @@ def get_date(object, field):
 def get_data(object):
     mapping = get_field_mapping()
     return {
-        'file': getattr(object, mapping['file'], None),
-        'title': getattr(object, mapping['title'], None),
-        'summary': getattr(object, mapping['summary'], None),
+        'file': get_attribute_value(object, mapping['file'], None),
+        'title': get_attribute_value(object, mapping['title'], None),
+        'summary': get_attribute_value(object, mapping['summary'], None),
         'tags': flatten_tags(object, mapping['tags']),
         'created': get_date(object, mapping['created']),
         'modified': get_date(object, mapping['modified']),
-        'collaborators': getattr(object, mapping['collaborators'], None),
+        'collaborators': get_attribute_value(object, mapping['collaborators'], None),
     }
     
 
@@ -95,7 +100,8 @@ def upload_file(uuid, file):
 
 def update_resource(object):
     annotations = IAnnotations(object)
-    file = getattr(object, 'file', None)
+    data = get_data(object)
+    file = data.get('file', None)
     must_update_file = True
     if not file:
         return
