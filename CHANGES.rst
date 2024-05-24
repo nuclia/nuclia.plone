@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b1 (unreleased)
+1.0b1 (2024-05-24)
 ------------------
 
 - Allow to re-index all files

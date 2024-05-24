@@ -14,7 +14,7 @@ long_description = '\n\n'.join([
 
 setup(
     name='nuclia.plone',
-    version='1.0a3',
+    version='1.0b1',
     description="Integrate Nuclia search in Plone",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
