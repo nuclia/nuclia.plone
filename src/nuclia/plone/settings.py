@@ -65,6 +65,12 @@ class ISettings(Interface):
         default=u"contributors",
         required=False,
     )
+    states = schema.List(
+        value_type=schema.TextLine(),
+        title=u"Worfklow states",
+        description=u"Worfklow states triggering the indexation",
+        default=[u"published"],
+    )
 
 class SettingsEditForm(RegistryEditForm):
     schema = ISettings
