@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b2 (unreleased)
+1.0b2 (2024-06-27)
 ------------------
 
 - Conservative encoding for the filename
