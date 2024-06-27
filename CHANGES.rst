@@ -4,7 +4,8 @@ Changelog
 1.0b2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Conservative encoding for the filename
+  [ebrehault]
 
 
 1.0b1 (2024-05-24)

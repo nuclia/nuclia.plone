@@ -76,14 +76,14 @@ def upload_to_new_resource(object):
             annotations[MD5_ANNOTATION] = hashlib.md5(file.data).hexdigest()
 
 def upload_file(uuid, file):
-    filename = getattr(file, "filename", None)
+    filename = getattr(file, "filename", None).encode('utf-8').decode('ascii','ignore')
     if not filename:
         return
     content_type = file.contentType
     headers = get_headers()
     headers.update({
         "content-type": content_type,
-        "x-filename": b64encode(filename.encode()).decode(),
+        "x-filename": filename,
     })
     response = requests.post(
         "{path}/slug/{uuid}/file/file/upload".format(path=get_kb_path(), uuid=uuid),
