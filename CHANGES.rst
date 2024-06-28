@@ -6,6 +6,8 @@ Changelog
 
 - Manage target folders
   [ebrehault]
+- Respect workflow state when reindexing
+  [ebrehault]
 
 
 1.0b2 (2024-06-27)
