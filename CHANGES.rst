@@ -4,7 +4,8 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Manage target folders
+  [ebrehault]
 
 
 1.0b2 (2024-06-27)

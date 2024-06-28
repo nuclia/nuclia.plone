@@ -24,6 +24,13 @@ class ISettings(Interface):
         default=u"",
         required=False,
     )
+    target_folders = schema.List(
+        value_type=schema.TextLine(),
+        title=u"Target folders",
+        description=u"List of folder pathes to index",
+        default=[],
+        required=False,
+    )
     file_field = schema.TextLine(
         title=u"File field",
         description=u"Name of the field containing the file to index",

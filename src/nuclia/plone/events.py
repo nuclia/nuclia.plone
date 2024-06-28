@@ -22,4 +22,6 @@ def on_state_change(object, event):
 
 def is_indexable(object):
     indexable_states = api.portal.get_registry_record('nuclia.states', default=['published'])
-    return api.content.get_state(obj=object, default='published') in indexable_states
+    target_folders = api.portal.get_registry_record('nuclia.target_folders', default=[])
+    object_path = object.absolute_url_path()
+    return api.content.get_state(obj=object, default='published') in indexable_states and (len(target_folders) == 0 or any([object_path.startswith(path) for path in target_folders]))
