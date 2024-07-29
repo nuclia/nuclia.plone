@@ -4,7 +4,8 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix tags encoding for Python 2.7
+  [ebrehault]
 
 
 1.0b3 (2024-06-28)

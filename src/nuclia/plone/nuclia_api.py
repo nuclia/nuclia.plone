@@ -16,9 +16,9 @@ def flatten_tags(object, attrs):
         value = get_attribute_value(object, attr, None)
         if value:
             if isinstance(value, (list, tuple)):
-                tags.extend(["{attr}/{v}".format(attr=attr, v=v) for v in value if v])
+                tags.extend([u"{attr}/{v}".format(attr=attr, v=v) for v in value if v])
             else:
-                tags.append("{attr}/{value}".format(attr=attr, value=value))
+                tags.append(u"{attr}/{value}".format(attr=attr, value=value))
     return tags
 
 def get_date(object, field):
