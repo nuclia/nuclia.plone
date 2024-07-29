@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b4 (unreleased)
+1.0b4 (2024-07-29)
 ------------------
 
 - Fix tags encoding for Python 2.7
